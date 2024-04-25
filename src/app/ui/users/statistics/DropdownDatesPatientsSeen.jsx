@@ -26,6 +26,7 @@ export const DropdownDatesPatientsSeen = ()=>{
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
+        console.log(datesPatientsSeen)
         if (datesPatientsSeen.length){
             setDatesPatientsSeenLoading(false)
             setElements(datesPatientsSeen.map((date)=>{
