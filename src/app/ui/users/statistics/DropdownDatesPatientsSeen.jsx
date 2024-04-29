@@ -26,7 +26,6 @@ export const DropdownDatesPatientsSeen = ()=>{
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
-        console.log(datesPatientsSeen)
         if (datesPatientsSeen.length){
             setDatesPatientsSeenLoading(false)
             setElements(datesPatientsSeen.map((date)=>{
@@ -47,6 +46,8 @@ export const DropdownDatesPatientsSeen = ()=>{
 
 const getDatesPatientsSeen = async (token)=>{
     const medicalHistories = await getMedicalHistories(token)
+
+    if (!medicalHistories.length) return
     const datesPatientsSeenRepeatedElements = medicalHistories.map((medicalHistory)=>{ 
         const medicalHistoryDate = new Date (medicalHistory.mh_date)
         return JSON.stringify({

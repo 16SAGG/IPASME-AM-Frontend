@@ -22,6 +22,10 @@
   }
 }
 
+textarea {
+  resize: none;
+}
+
 .terciary-color-filter {
   filter: invert(6%) sepia(5%) saturate(1716%) hue-rotate(211deg) brightness(8%) contrast(100%);
 }

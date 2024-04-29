@@ -4,33 +4,64 @@ import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 
-const links = [
+const linksPool = [
     {
         icon : "/icons/statistics-icon.svg",
         name : "Estadísticas",
-        href : "/users/statistics"
+        href : "/users/statistics",
+        userType : ['0']
     },
     {
         icon : "/icons/users-icon.svg",
         name : "Usuarios",
-        href : "/users/management"
+        href : "/users/management",
+        userType : ['0']
+    },
+    {
+        icon : "/icons/medical-histories-icon.svg",
+        name : "Historiales Medicos",
+        href : "/users/medical_histories/management",
+        userType : ['1', '2']
+    },
+    {
+        icon : "/icons/patients-icon.svg",
+        name : "Pacientes",
+        href : "/users/patients/management",
+        userType : ['2']
+    },
+    {
+        icon : "/icons/appointments-icon.svg",
+        name : "Citas",
+        href : "/users/appointments/management",
+        userType : ['1', '2']
     },
 ]
 
 export const NavBar = ()=>{
+    const [links, setLinks] = useState([])
+
+    useEffect(()=>{
+        setLinks(linksPool.map((link) =>{
+            if (link.userType.includes(localStorage.getItem("user_type"))){
+                return(
+                    <NavBarAnchor
+                        icon={link.icon}
+                        name={link.name}
+                        href={link.href}
+                        key={link.href}
+                    />
+                )
+            }
+        }))
+    }, [])
+    
     return(
         <nav
             className="flex fixed bottom-0 left-0 min-h-16 w-full bg-primary z-10 md:top-0 md:bottom-auto"
         >
-            {links.map((link) =>
-                <NavBarAnchor
-                    icon={link.icon}
-                    name={link.name}
-                    href={link.href}
-                    key={link.href}
-                />
-            )}
+            {links}
         </nav>
     )
 }

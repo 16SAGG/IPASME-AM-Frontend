@@ -1,31 +1,31 @@
 "use client"
 
 import { getVerified } from "@/app/requests/getVerified"
-import { useManagementStore } from "@/app/store/users/management/management.store"
+import { useManagementStore } from "@/app/store/patients/management/management.store"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-export const UsersList = () =>{
-    const [usersPool, setUsersPool] = useState([])
-    const [users, setUsers] = useState([])
+export const PatientsList = () =>{
+    const [patientsPool, setPatientsPool] = useState([])
+    const [patients, setPatients] = useState([])
 
-    const [usersLoading, setUsersLoading] = useState(true)
+    const [patientsLoading, setPatientsLoading] = useState(true)
 
     const search = useManagementStore(state => state.search)
 
     useEffect(()=>async()=>{
-        const result = await getUsers(localStorage.getItem("user_token"))
+        const result = await getPatients(localStorage.getItem("user_token"))
         if (result.length){
-            setUsersLoading(false)
-            setUsersPool(await result)
-            setUsers(await result)
+            setPatientsLoading(false)
+            setPatientsPool(await result)
+            setPatients(await result)
         }
     }, [])
 
     useEffect(()=>{
-        if (!search) setUsers(usersPool)
-        else setUsers(usersPool.filter(user => user.email.toUpperCase().includes(search.toUpperCase())))
+        if (!search) setPatients(patientsPool)
+        else setPatients(patientsPool.filter(patient => patient.ci.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -33,17 +33,17 @@ export const UsersList = () =>{
             className="flex flex-col gap-3"
         >
             {
-                (!usersLoading) ?
-                    users.map((user)=>
-                        <UserItem
-                            id={user.id}
-                            email={user.email}
-                            key={user.id}
+                (!patientsLoading) ?
+                    patients.map((patient)=>
+                        <PatientItem
+                            id={patient.id}
+                            ci={patient.ci}
+                            key={patient.id}
                         />
                     )
                 :
                     ["", "", "", "", ""].map((item, _index) =>
-                        <SkeletonUserItem
+                        <SkeletonPatientItem
                             key={_index}
                         />
                     )
@@ -52,17 +52,17 @@ export const UsersList = () =>{
     )
 }
 
-const UserItem = ({id, email}) =>{
+const PatientItem = ({id, ci}) =>{
     return(
         <li>
             <Link
-                href={`/users/management/${id}`}
+                href={`/users/patients/management/${id}`}
                 className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
             >
                 <p
                     className="grow text-left"
                 >
-                    {email}
+                    {ci}
                 </p>
                 <Image
                     src={"/icons/arrow-icon.svg"}
@@ -76,7 +76,7 @@ const UserItem = ({id, email}) =>{
     )
 }
 
-const SkeletonUserItem = () =>{
+const SkeletonPatientItem = () =>{
     return(
         <li
             className="border border-complementary bg-complementary rounded-xl h-[54px] animate-pulse"
@@ -85,12 +85,12 @@ const SkeletonUserItem = () =>{
     )
 }
 
-const getUsers = async (token) =>{
-    let users = []
+const getPatients = async (token) =>{
+    let patients = []
 
     do{
-        users = await getVerified(`https://ipasme-am-backend.onrender.com/api/users`, token)
-    }while(users.message)
+        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients`, token)
+    }while(patients.message)
     
-    return users
+    return patients
 }

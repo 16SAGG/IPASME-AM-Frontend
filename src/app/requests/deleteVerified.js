@@ -1,6 +1,6 @@
-export const deleteUser = async (id, token) =>{
+export const deleteVerified = async (url, token) =>{
     try {
-        const response = await fetch(`https://ipasme-am-backend.onrender.com/api/users/${id}`, {
+        const response = await fetch(url, {
             method: 'DELETE',
             headers: {
                 "x-access-token": token

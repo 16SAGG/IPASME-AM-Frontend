@@ -1,8 +1,9 @@
 import { PrimaryLink } from "@/app/ui/PrimaryLink";
-import { UsersList } from "../../ui/users/management/UsersList";
-import { SearchUsers } from "@/app/ui/users/management/SearchUsers";
+import { SearchPatients } from "@/app/ui/patients/management/SearchPatients";
+import { MedicalHistoriesList } from "@/app/ui/medical_histories/management/MedicalHistoriesList";
 
-export default function ManagementPage (){
+
+export default function MedicalHistoriesManagementPage (){
     return(
         <main
             className="flex flex-col gap-12"
@@ -10,7 +11,7 @@ export default function ManagementPage (){
             <h1
                 className="text-4xl font-semibold text-center"
             >
-                Usuario
+                Historial Medico
             </h1>
             <div
                 className="flex flex-col gap-6"
@@ -18,13 +19,13 @@ export default function ManagementPage (){
                 <div
                     className="flex flex-col gap-3"
                 >
-                    <SearchUsers/>
+                    <SearchPatients/>
                     <PrimaryLink
-                        content={"Crear Nuevo Usuario"}
-                        href={`/users/management/create`}
+                        content={"Crear Nuevo Historial Medico"}
+                        href={`/users/medical_histories/management/create`}
                     />
                 </div>
-                <UsersList/>
+                <MedicalHistoriesList/>
             </div>
         </main>
     )

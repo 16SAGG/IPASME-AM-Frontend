@@ -1,8 +1,8 @@
 import { PrimaryLink } from "@/app/ui/PrimaryLink";
-import { UsersList } from "../../ui/users/management/UsersList";
-import { SearchUsers } from "@/app/ui/users/management/SearchUsers";
+import { AppointmentsList } from "@/app/ui/appointments/management/AppointmentsList";
+import { SearchAppointments } from "@/app/ui/appointments/management/SearchAppointments";
 
-export default function ManagementPage (){
+export default function AppointmentsManagementPage (){
     return(
         <main
             className="flex flex-col gap-12"
@@ -10,7 +10,7 @@ export default function ManagementPage (){
             <h1
                 className="text-4xl font-semibold text-center"
             >
-                Usuario
+                Citas
             </h1>
             <div
                 className="flex flex-col gap-6"
@@ -18,13 +18,13 @@ export default function ManagementPage (){
                 <div
                     className="flex flex-col gap-3"
                 >
-                    <SearchUsers/>
+                    <SearchAppointments/>
                     <PrimaryLink
-                        content={"Crear Nuevo Usuario"}
-                        href={`/users/management/create`}
+                        content={"Crear Nueva Cita"}
+                        href={`/users/appointments/management/create`}
                     />
                 </div>
-                <UsersList/>
+                <AppointmentsList/>
             </div>
         </main>
     )

@@ -1,0 +1,118 @@
+"use client"
+
+import { extractDate } from "@/app/libs/utils"
+import { getVerified } from "@/app/requests/getVerified"
+import { useManagementStore } from "@/app/store/patients/management/management.store"
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+
+export const MedicalHistoriesList = () =>{
+    const [medicalHistoriesPool, setMedicalHistoriesPool] = useState([])
+    const [medicalHistories, setMedicalHistories] = useState([])
+
+    const [medicalHistoriesLoading, setMedicalHistoriesLoading] = useState(true)
+
+    const search = useManagementStore(state => state.search)
+
+    useEffect(()=>async()=>{
+        const result = await getMedicalHistories(localStorage.getItem("user_token"))
+        setMedicalHistoriesLoading(false)
+        if (result.length){
+            setMedicalHistoriesPool(await result)
+            setMedicalHistories(await result)
+        }
+    }, [])
+
+    useEffect(()=>{
+        if (!search) setMedicalHistories(medicalHistoriesPool)
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.appointment_date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+    }, [search])
+
+    return(
+        <ul
+            className="flex flex-col gap-3"
+        >
+            {
+                (!medicalHistoriesLoading) ?
+                    medicalHistories.map((medicalHistory)=>
+                        <MedicalHistoryItem
+                            id={medicalHistory.id}
+                            date={extractDate(medicalHistory.appointment_date)}
+                            ci={medicalHistory.ci}
+                            specialty={medicalHistory.name}
+                            key={medicalHistory.id}
+                        />
+                    )
+                :
+                    ["", "", "", "", ""].map((item, _index) =>
+                        <SkeletonMedicalHistoryItem
+                            key={_index}
+                        />
+                    )
+            }
+        </ul>
+    )
+}
+
+const MedicalHistoryItem = ({id, date, ci, specialty}) =>{
+    return(
+        <li>
+            <Link
+                href={`/users/medical_histories/management/${id}`}
+                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+            >
+                <div
+                    className="flex flex-col gap-2 grow "
+                >
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">ID:</span> {id}
+                    </p>
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">Cedula:</span> {ci}
+                    </p>
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">Especialidad:</span> {specialty}
+                    </p>
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">Fecha:</span> {date}
+                    </p>
+                </div>
+                <Image
+                    src={"/icons/arrow-icon.svg"}
+                    width={20}
+                    height={20}    
+                    alt="Flecha decorativa"
+                    className="complementary-color-filter -rotate-90"
+                />
+            </Link>
+        </li>
+    )
+}
+
+const SkeletonMedicalHistoryItem = () =>{
+    return(
+        <li
+            className="border border-complementary bg-complementary rounded-xl h-[162px] animate-pulse"
+        >
+        </li>
+    )
+}
+
+const getMedicalHistories = async (token) =>{
+    let medicalHistories = []
+
+    do{
+        medicalHistories = await getVerified(`https://ipasme-am-backend.onrender.com/api/medical_histories/patient/specialty`, token)
+    }while(medicalHistories.message)
+    
+    return medicalHistories
+}

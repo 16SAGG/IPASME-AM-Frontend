@@ -31,7 +31,7 @@ export const SelectInput = ({placeholder, options = [], loading = false, default
                         <Option
                             value={option.id}
                             content={option.name}
-                            isDefault={index === defaultValue}
+                            isDefault={option.id === defaultValue}
                             key={index}
                         />
                     )}

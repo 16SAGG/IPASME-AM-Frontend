@@ -10,7 +10,7 @@ import { getVerified } from "@/app/requests/getVerified"
 import { extractDate } from "@/app/libs/utils"
 import { updateUser } from "@/app/requests/updateUser"
 import { DangerButton } from "../../DangerButton"
-import { deleteUser } from "@/app/requests/deleteUser"
+import { deleteVerified} from "@/app/requests/deleteVerified"
 import Image from "next/image"
 
 export const EditForm = ({id})=>{
@@ -224,7 +224,7 @@ const DeleteButton = ({id, setResult}) =>{
 
     const onClickHandle = async () =>{
         setLoading(true)
-        const deleteUserReq = await deleteUser(id, localStorage.getItem("user_token"))
+        const deleteUserReq = await deleteVerified(`https://ipasme-am-backend.onrender.com/api/users/${id}`, localStorage.getItem("user_token"))
 
         if (!deleteUserReq.message) setResult({ok: "Ok"})
         else setResult(deleteUserReq)
