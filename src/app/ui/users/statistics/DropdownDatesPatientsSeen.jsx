@@ -26,6 +26,7 @@ export const DropdownDatesPatientsSeen = ()=>{
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
+        console.log(datesPatientsSeen[0])
         if (datesPatientsSeen.length){
             setDatesPatientsSeenLoading(false)
             setElements(datesPatientsSeen.map((date)=>{
@@ -49,7 +50,7 @@ const getDatesPatientsSeen = async (token)=>{
 
     if (!medicalHistories.length) return
     const datesPatientsSeenRepeatedElements = medicalHistories.map((medicalHistory)=>{ 
-        const medicalHistoryDate = new Date (medicalHistory.mh_date)
+        const medicalHistoryDate = new Date (medicalHistory.appointment_date)
         return JSON.stringify({
             description: `Pacientes atendidos en ${months[medicalHistoryDate.getMonth()]} del ${medicalHistoryDate.getFullYear()}`,
             value: {
@@ -63,7 +64,7 @@ const getDatesPatientsSeen = async (token)=>{
 }
 
 const getMedicalHistories = async (token)=>{
-    const medicalHistories = await getVerified('https://ipasme-am-backend.onrender.com/api/medical_histories', token)
+    const medicalHistories = await getVerified('https://ipasme-am-backend.onrender.com/api/medical_histories/patient/specialty', token)
 
     return medicalHistories
 }
