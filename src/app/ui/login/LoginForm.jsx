@@ -31,6 +31,7 @@ export const LoginForm = ()=>{
 
             if (result.user_type === 0) push('/users/statistics')
             if (result.user_type === 2) push('/users/patients/management')
+            if (result.user_type === 1) push('/users/appointments/management')
         }
     }, [result])
 

@@ -16,11 +16,9 @@ export const UsersList = () =>{
 
     useEffect(()=>async()=>{
         const result = await getUsers(localStorage.getItem("user_token"))
-        if (result.length){
-            setUsersLoading(false)
-            setUsersPool(await result)
-            setUsers(await result)
-        }
+        setUsersLoading(false)
+        setUsersPool(await result)
+        setUsers(await result)
     }, [])
 
     useEffect(()=>{

@@ -16,11 +16,9 @@ export const PatientsList = () =>{
 
     useEffect(()=>async()=>{
         const result = await getPatients(localStorage.getItem("user_token"))
-        if (result.length){
-            setPatientsLoading(false)
-            setPatientsPool(await result)
-            setPatients(await result)
-        }
+        setPatientsLoading(false)
+        setPatientsPool(await result)
+        setPatients(await result)
     }, [])
 
     useEffect(()=>{

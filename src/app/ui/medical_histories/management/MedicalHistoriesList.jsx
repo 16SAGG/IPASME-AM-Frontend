@@ -8,6 +8,66 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 
 export const MedicalHistoriesList = () =>{
+    const [userType, setUserType] = useState("0")
+    useEffect(()=>{
+        setUserType(localStorage.getItem("user_type"))
+    })
+    
+    return(
+        <>
+            {(userType === "1") ? <MedicalHistoriesListDoctor/> : <></>}
+            {(userType === "2") ? <MedicalHistoriesListReceptionist/> : <></>}
+        </>
+    )
+}
+
+const MedicalHistoriesListDoctor= ()=>{
+    const [medicalHistoriesPool, setMedicalHistoriesPool] = useState([])
+    const [medicalHistories, setMedicalHistories] = useState([])
+
+    const [medicalHistoriesLoading, setMedicalHistoriesLoading] = useState(true)
+
+    const search = useManagementStore(state => state.search)
+
+    useEffect(()=>async()=>{
+        const result = await getPatients(localStorage.getItem("user_token"))
+        console.log(result)
+        setMedicalHistoriesLoading(false)
+        setMedicalHistoriesPool(await result)
+        setMedicalHistories(await result)
+    }, [])
+
+    useEffect(()=>{
+        if (!search) setMedicalHistories(medicalHistoriesPool)
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.appointment_date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+    }, [search])
+
+    return(
+        <ul
+            className="flex flex-col gap-3"
+        >
+            {
+                (!medicalHistoriesLoading) ?
+                    medicalHistories.map((medicalHistory)=>
+                        <PatientItem
+                            id={medicalHistory.id}
+                            ci={medicalHistory.ci}
+                            key={medicalHistory.id}
+                        />
+                    )
+                :
+                    ["", "", "", "", ""].map((item, _index) =>
+                        <SkeletonMedicalHistoryItem
+                            key={_index}
+                        />
+                    )
+            }
+        </ul>
+    )
+}
+
+
+const MedicalHistoriesListReceptionist = ()=>{
     const [medicalHistoriesPool, setMedicalHistoriesPool] = useState([])
     const [medicalHistories, setMedicalHistories] = useState([])
 
@@ -18,10 +78,8 @@ export const MedicalHistoriesList = () =>{
     useEffect(()=>async()=>{
         const result = await getMedicalHistories(localStorage.getItem("user_token"))
         setMedicalHistoriesLoading(false)
-        if (result.length){
-            setMedicalHistoriesPool(await result)
-            setMedicalHistories(await result)
-        }
+        setMedicalHistoriesPool(await result)
+        setMedicalHistories(await result)
     }, [])
 
     useEffect(()=>{
@@ -52,6 +110,34 @@ export const MedicalHistoriesList = () =>{
                     )
             }
         </ul>
+    )
+}
+
+const PatientItem = ({id, ci}) =>{
+    return(
+        <li>
+            <Link
+                href={`/users/medical_histories/management/patient/${id}`}
+                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+            >
+                <div
+                    className="flex flex-col gap-2 grow "
+                >
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">Cedula:</span> {ci}
+                    </p>
+                </div>
+                <Image
+                    src={"/icons/arrow-icon.svg"}
+                    width={20}
+                    height={20}    
+                    alt="Flecha decorativa"
+                    className="complementary-color-filter -rotate-90"
+                />
+            </Link>
+        </li>
     )
 }
 
@@ -115,4 +201,14 @@ const getMedicalHistories = async (token) =>{
     }while(medicalHistories.message)
     
     return medicalHistories
+}
+
+const getPatients = async (token) =>{
+    let patients = []
+
+    do{
+        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients`, token)
+    }while(patients.message)
+    
+    return patients
 }
