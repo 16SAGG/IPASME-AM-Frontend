@@ -26,8 +26,8 @@ export const PatientMedicalHistory = ({id}) =>{
                 medicalHistories.map((medicalHistory, _index)=>
                     <MedicalHistoryItem
                         date={extractDate(medicalHistory.appointment_date)}
-                        doctor={`${medicalHistory.doctor_name} ${medicalHistory.doctor_last_name} -- ${medicalHistory.doctor_ci}`}
-                        specialty={medicalHistory.specialty}
+                        doctor={`${medicalHistory.doctor_name} ${medicalHistory.last_name} -- ${medicalHistory.ci}`}
+                        specialty={medicalHistory.specialty_name}
                         description={medicalHistory.description}
                         key={_index}
                     />
