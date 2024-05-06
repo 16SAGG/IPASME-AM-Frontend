@@ -9,26 +9,24 @@ import { useStatisticsStore } from "@/app/store/users/statistics/statistics.stor
 
 export const DropdownDatesPatientsSeen = ()=>{
     const [currentElement, setCurrentElement] = useState(0)
-    const [elements, setElements] = useState([{
-        description: "",
-        value: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth()
-        }
-    }])
+    const [elements, setElements] = useState([])
     const setDatesPatientsSeen = useStatisticsStore(state => state.setDatesPatientsSeen)
 
     const [datesPatientsSeenLoading, setDatesPatientsSeenLoading] = useState(true)
 
     const elementOnClickHandle = (index) => setCurrentElement(index)
 
-    useEffect(()=> setDatesPatientsSeen(elements[currentElement].value), [currentElement, elements])
+    useEffect(()=> setDatesPatientsSeen(
+        (elements.length > 0) ? elements[currentElement].value :
+        {month: new Date().getMonth(), year: new Date().getFullYear()}
+    ),
+        [currentElement, elements]
+    )
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
-        console.log(datesPatientsSeen[0])
-        if (datesPatientsSeen.length){
-            setDatesPatientsSeenLoading(false)
+        setDatesPatientsSeenLoading(false)
+        if (datesPatientsSeen){
             setElements(datesPatientsSeen.map((date)=>{
                 date.onClick = elementOnClickHandle
                 return date
@@ -38,7 +36,7 @@ export const DropdownDatesPatientsSeen = ()=>{
 
     return(
         <Dropdown
-            description={elements[currentElement].description}
+            description={(elements.length > 0) ? elements[currentElement].description : null}
             elements={elements}
             loading={datesPatientsSeenLoading}
         />

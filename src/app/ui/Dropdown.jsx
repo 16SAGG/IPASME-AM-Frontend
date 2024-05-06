@@ -10,8 +10,16 @@ export const Dropdown = ({description, elements, loading = false}) =>{
                     <div
                         className="h-40 grid grid-cols-1 grid-rows-1 dropdown"
                     >
-                        <BackSide elements={elements}/>
-                        <FrontSide description={description}/>
+                        {
+                            (elements.length > 0) ?
+                                <>
+                                    <BackSide elements={elements}/>
+                                    <FrontSide description={description}/>
+                                </>
+                            :
+                                <NonElements/>
+                        }
+                        
                     </div>
                 :
                     <div
@@ -21,6 +29,16 @@ export const Dropdown = ({description, elements, loading = false}) =>{
                     </div>
             }
         </>
+    )
+}
+
+const NonElements = ({}) =>{
+    return(
+        <div
+            className="flex items-center justify-center"
+        >
+            <p>No hay elementos disponibles</p>
+        </div>
     )
 }
 
