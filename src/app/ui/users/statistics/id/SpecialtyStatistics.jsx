@@ -17,13 +17,13 @@ export const SpecialtyStatistics = ({id}) =>{
     const datesPatientsSeen = useStatisticsStore(state => state.datesPatientsSeen)
     const [loading, setLoading] = useState(true)
     
-    useEffect(()=>async()=>{
+    useEffect(()=>{
         setLoading(true)
-        const patientsSeenItemsResult = await getPatientsSeenItemsBySpecialtyOnADate(localStorage.getItem("user_token"), id, datesPatientsSeen.month, datesPatientsSeen.year)
+        setTimeout(async()=>{const patientsSeenItemsResult = await getPatientsSeenItemsBySpecialtyOnADate(localStorage.getItem("user_token"), id, datesPatientsSeen.month, datesPatientsSeen.year)
         if (patientsSeenItemsResult){
             setLoading(false)
             setPatientsSeenItems(patientsSeenItemsResult)
-        }
+        }}, 1000)
         
     }, [datesPatientsSeen])
 
