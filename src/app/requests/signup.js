@@ -1,8 +1,8 @@
 export const signup = async (name, lastName, ci, birthdate, gender, email, password, userType, specialty, turn) =>{    
     try {
-        const response = await fetch('https://ipasme-am-backend.onrender.com/api/auth/sign_up', {
+        const response = await fetch('http://localhost:4000/api/auth/sign_up', {
             method: 'POST',
-            body: JSON.stringify({ name, "last_name" : lastName, ci, birthdate, gender, email, password, "user_type" : userType, specialty, turn }),
+            body: JSON.stringify({ name, lastName, ci, birthdate, gender, email, password, userType, specialty, turn }),
             headers: {
                 "Content-Type": "application/json",
             },
