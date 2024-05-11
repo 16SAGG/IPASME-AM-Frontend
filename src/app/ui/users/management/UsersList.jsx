@@ -87,7 +87,7 @@ const getUsers = async (token) =>{
     let users = []
 
     do{
-        users = await getVerified(`https://ipasme-am-backend.onrender.com/api/users`, token)
+        users = await getVerified(`http://localhost:4000/api/users`, token)
     }while(users.message)
     
     return users
