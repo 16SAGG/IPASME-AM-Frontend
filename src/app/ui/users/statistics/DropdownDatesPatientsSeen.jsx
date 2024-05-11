@@ -16,15 +16,19 @@ export const DropdownDatesPatientsSeen = ()=>{
 
     const elementOnClickHandle = (index) => setCurrentElement(index)
 
-    useEffect(()=> setDatesPatientsSeen(
+    useEffect(()=> {
+        console.log("ddps: month: ", elements[currentElement]?.value.month)
+        
+        setDatesPatientsSeen(
         (elements.length > 0) ? elements[currentElement].value :
         {month: new Date().getMonth(), year: new Date().getFullYear()}
-    ),
+    )},
         [currentElement, elements]
     )
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
+        console.log(datesPatientsSeen)
         setDatesPatientsSeenLoading(false)
         if (datesPatientsSeen){
             setElements(datesPatientsSeen.map((date)=>{
@@ -48,7 +52,7 @@ const getDatesPatientsSeen = async (token)=>{
 
     if (!medicalHistories.length) return
     const datesPatientsSeenRepeatedElements = medicalHistories.map((medicalHistory)=>{ 
-        const medicalHistoryDate = new Date (medicalHistory.appointment_date)
+        const medicalHistoryDate = new Date (medicalHistory.date)
         return JSON.stringify({
             description: `Pacientes atendidos en ${months[medicalHistoryDate.getMonth()]} del ${medicalHistoryDate.getFullYear()}`,
             value: {
@@ -62,11 +66,6 @@ const getDatesPatientsSeen = async (token)=>{
 }
 
 const getMedicalHistories = async (token)=>{
-    try{
-        const medicalHistories = await getVerified('http://localhost:4000/api/medical_histories/patient/specialty', token)
-        return medicalHistories
-    }
-    catch {
-        return []
-    }
+    const medicalHistories = await getVerified('http://localhost:4000/api/medical_histories/patient/specialty', token)
+    return medicalHistories
 }

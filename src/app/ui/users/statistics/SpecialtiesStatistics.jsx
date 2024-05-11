@@ -50,13 +50,14 @@ const SpecialtyBox = ({id, name}) =>{
 
     const [patientsSeenQuantityLoading, setPatientsSeenQuantityLoading] = useState(true)
     
-    useEffect(()=>async()=>{
+    useEffect(()=>{
         setPatientsSeenQuantityLoading(true)
-        const patientsSeenQuantityResult = await getPatientsSeenQuantityBySpecialtyOnADate(localStorage.getItem("user_token"), id, datesPatientsSeen.month, datesPatientsSeen.year)
+        console.log("ss: month: ", datesPatientsSeen.month)
+        setTimeout(async()=>{const patientsSeenQuantityResult = await getPatientsSeenQuantityBySpecialtyOnADate(localStorage.getItem("user_token"), id, datesPatientsSeen.month, datesPatientsSeen.year)
         if (patientsSeenQuantityResult >= 0){
             setPatientsSeenQuantityLoading(false)
             setPatientsSeenQuantity(await patientsSeenQuantityResult)
-        }
+        }}, 1000)
     }, [datesPatientsSeen])
 
     return(
@@ -115,14 +116,14 @@ const getPatientsSeenQuantityBySpecialtyOnADate = async (token, id, month, year)
     let specialtyStatistic = []
 
     do{
-        specialtyStatistic = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients/specialty/${id}/${month + 1}/${year}`, token)
+        specialtyStatistic = await getVerified(`http://localhost:4000/api/patients/specialty/${id}/${month + 1}/${year}`, token)
     }while(specialtyStatistic.message)
     
     return specialtyStatistic.length
 }
 
 const getSpecialties = async (token) =>{
-    const specialties = await getVerified('https://ipasme-am-backend.onrender.com/api/specialty', token)
+    const specialties = await getVerified('http://localhost:4000/api/specialty', token)
 
     return specialties
 }
