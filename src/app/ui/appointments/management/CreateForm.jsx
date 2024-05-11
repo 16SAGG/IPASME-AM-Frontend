@@ -55,7 +55,7 @@ export const CreateForm = ()=>{
             setDoctorPool(await doctorsResult.map((doctor) =>{
                 return {
                     id : doctor.id,
-                    name : `${doctor.name} ${doctor.last_name} - ${doctor.ci}`
+                    name : `${doctor.name} ${doctor.lastName} - ${doctor.ci}`
                 }
             }))
         }
@@ -76,7 +76,7 @@ export const CreateForm = ()=>{
             setPatientPool(await patientsResult.map((patient) =>{
                 return {
                     id : patient.id,
-                    name : `${patient.name} ${patient.last_name} - ${patient.ci}`
+                    name : `${patient.name} ${patient.lastName} - ${patient.ci}`
                 }
             }))
         }
@@ -234,7 +234,7 @@ const getDoctors = async (token, specialty, turn) =>{
     let doctors = []
 
     do{
-        doctors = await getVerified(`https://ipasme-am-backend.onrender.com/api/users/doctors/${specialty}/${turn}`, token)
+        doctors = await getVerified(`http://localhost:4000/api/users/doctors/${specialty}/${turn}`, token)
     }while(doctors.message === 'Something Goes Wrong')
 
     return doctors
@@ -244,7 +244,7 @@ const getPatients = async (token) =>{
     let patients = []
 
     do{
-        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients`, token)
+        patients = await getVerified(`http://localhost:4000/api/patients`, token)
     }while(patients.message === 'Something Goes Wrong')
     
     return patients
@@ -254,7 +254,7 @@ const getAppointmentTypes= async (token) =>{
     let appointmentTypes = []
 
     do{
-        appointmentTypes = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointment_type`, token)
+        appointmentTypes = await getVerified(`http://localhost:4000/api/appointment_type`, token)
     }while(appointmentTypes.message === 'Something Goes Wrong')
     
     return appointmentTypes
@@ -264,7 +264,7 @@ const getSpecialties = async (token) =>{
     let specialties = []
 
     do{
-        specialties = await getVerified(`https://ipasme-am-backend.onrender.com/api/specialty`, token)
+        specialties = await getVerified(`http://localhost:4000/api/specialty`, token)
     }while(specialties.message === 'Something Goes Wrong')
     
     return specialties
@@ -274,7 +274,7 @@ const getTurns = async (token) =>{
     let turns = []
 
     do{
-        turns = await getVerified(`https://ipasme-am-backend.onrender.com/api/turn`, token)
+        turns = await getVerified(`http://localhost:4000/api/turn`, token)
     }while(turns.message === 'Something Goes Wrong')
     
     return turns

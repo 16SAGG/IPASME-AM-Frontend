@@ -1,8 +1,8 @@
 export const createAppointment = async (token, date, doctor, patient, appointmentType, specialty, turn) =>{
     try {
-        const response = await fetch('https://ipasme-am-backend.onrender.com/api/appointments', {
+        const response = await fetch('http://localhost:4000/api/appointments', {
             method: 'POST',
-            body: JSON.stringify({ "appointment_date" : date, doctor, patient, "appointment_type": appointmentType, specialty, turn }),
+            body: JSON.stringify({ date, doctor, patient, appointmentType, specialty, turn }),
             headers: {
                 "Content-Type": "application/json",
                 "x-access-token": token
