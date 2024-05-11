@@ -62,7 +62,11 @@ const getDatesPatientsSeen = async (token)=>{
 }
 
 const getMedicalHistories = async (token)=>{
-    const medicalHistories = await getVerified('https://ipasme-am-backend.onrender.com/api/medical_histories/patient/specialty', token)
-
-    return medicalHistories
+    try{
+        const medicalHistories = await getVerified('http://localhost:4000/api/medical_histories/patient/specialty', token)
+        return medicalHistories
+    }
+    catch {
+        return []
+    }
 }

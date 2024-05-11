@@ -29,9 +29,9 @@ export const LoginForm = ()=>{
             localStorage.setItem("user_birthdate", result.birthdate)
             localStorage.setItem("user_gender", result.gender)
 
-            if (result.user_type === `0`) push('/users/statistics')
-            if (result.user_type === `2`) push('/users/patients/management')
-            if (result.user_type === `1`) push('/users/appointments/management')
+            if (result.user_type === 0) push('/users/statistics')
+            if (result.user_type === 1) push('/users/patients/management')
+            if (result.user_type === 2) push('/users/appointments/management')
         }
     }, [result])
 
