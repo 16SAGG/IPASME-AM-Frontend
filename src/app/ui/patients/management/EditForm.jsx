@@ -41,7 +41,7 @@ useEffect(()=>async()=>{
         if (!patientsResult.message){
             setPatientsLoading(false)
             setName(await patientsResult.name)
-            setLastName(await patientsResult.last_name)
+            setLastName(await patientsResult.lastName)
             setBirthdate(extractDate(await patientsResult.birthdate))
             setGender(await patientsResult.gender)
             setEmail(await patientsResult.email)
@@ -73,7 +73,7 @@ return(
         <h1
             className="text-4xl font-semibold text-center"
         >
-            Crear Paciente
+            Editar Paciente
         </h1>
 
         <div
@@ -196,7 +196,7 @@ const DeleteButton = ({id, setResult}) =>{
 
     const onClickHandle = async () =>{
         setLoading(true)
-        const deletePatientsReq = await deleteVerified(`https://ipasme-am-backend.onrender.com/api/patients/${id}`, localStorage.getItem("user_token"))
+        const deletePatientsReq = await deleteVerified(`http://localhost:4000/api/patients/${id}`, localStorage.getItem("user_token"))
 
         if (!deletePatientsReq.message) setResult({ok: "Ok"})
         else setResult(deletePatientsReq)
@@ -225,7 +225,7 @@ const getPatient = async (token, id) =>{
     let patients = []
 
     do{
-        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients/${id}`, token)
+        patients = await getVerified(`http://localhost:4000/api/patients/${id}`, token)
     }while(patients.message === 'Something Goes Wrong')
 
     return patients
@@ -235,7 +235,7 @@ const getGenders = async (token) =>{
 let genders = []
 
 do{
-    genders = await getVerified(`https://ipasme-am-backend.onrender.com/api/gender`, token)
+    genders = await getVerified(`http://localhost:4000/api/gender`, token)
 }while(genders.message === 'Something Goes Wrong')
 
 return genders

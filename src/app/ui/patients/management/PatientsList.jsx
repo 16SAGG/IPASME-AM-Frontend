@@ -87,7 +87,7 @@ const getPatients = async (token) =>{
     let patients = []
 
     do{
-        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients`, token)
+        patients = await getVerified(`http://localhost:4000/api/patients`, token)
     }while(patients.message)
     
     return patients

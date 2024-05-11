@@ -181,7 +181,7 @@ const getGenders = async (token) =>{
     let genders = []
 
     do{
-        genders = await getVerified(`https://ipasme-am-backend.onrender.com/api/gender`, token)
+        genders = await getVerified(`http://localhost:4000/api/gender`, token)
     }while(genders.message === 'Something Goes Wrong')
 
     return genders

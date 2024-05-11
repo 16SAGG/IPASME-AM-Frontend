@@ -1,8 +1,8 @@
 export const createPatients = async (token, name, lastName, ci, birthdate, gender, email, phone, address) =>{
     try {
-        const response = await fetch('https://ipasme-am-backend.onrender.com/api/patients', {
+        const response = await fetch('http://localhost:4000/api/patients', {
             method: 'POST',
-            body: JSON.stringify({ name, "last_name" : lastName, ci, birthdate, gender, email, phone, address }),
+            body: JSON.stringify({ name, lastName, ci, birthdate, gender, email, phone, address }),
             headers: {
                 "Content-Type": "application/json",
                 "x-access-token": token

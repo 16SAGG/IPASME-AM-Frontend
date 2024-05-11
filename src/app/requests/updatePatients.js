@@ -1,8 +1,8 @@
 export const updatePatients = async (id, token, name, lastName, birthdate, gender, email, phone, address) =>{    
     try {
-        const response = await fetch(`https://ipasme-am-backend.onrender.com/api/patients/${id}`, {
+        const response = await fetch(`http://localhost:4000/api/patients/${id}`, {
             method: 'PATCH',
-            body: JSON.stringify({ name, "last_name": lastName, birthdate, gender, email, phone, address }),
+            body: JSON.stringify({ name, lastName, birthdate, gender, email, phone, address }),
             headers: {
                 "Content-Type": "application/json",
                 "x-access-token": token
