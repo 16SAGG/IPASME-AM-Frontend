@@ -39,7 +39,7 @@ const getSpecialtyName = async (token, id) =>{
     let specialty = []
 
     do{
-        specialty = await getVerified(`https://ipasme-am-backend.onrender.com/api/specialty/${id}`, token)
+        specialty = await getVerified(`http://localhost:4000/api/specialty/${id}`, token)
     }while(specialty.message)
 
     return specialty.name

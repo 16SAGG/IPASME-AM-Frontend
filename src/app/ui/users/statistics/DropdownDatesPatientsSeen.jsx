@@ -17,7 +17,6 @@ export const DropdownDatesPatientsSeen = ()=>{
     const elementOnClickHandle = (index) => setCurrentElement(index)
 
     useEffect(()=> {
-        console.log("ddps: month: ", elements[currentElement]?.value.month)
         
         setDatesPatientsSeen(
         (elements.length > 0) ? elements[currentElement].value :
@@ -28,7 +27,6 @@ export const DropdownDatesPatientsSeen = ()=>{
     
     useEffect(()=> async()=>{
         const datesPatientsSeen = await getDatesPatientsSeen(localStorage.getItem("user_token"))
-        console.log(datesPatientsSeen)
         setDatesPatientsSeenLoading(false)
         if (datesPatientsSeen){
             setElements(datesPatientsSeen.map((date)=>{

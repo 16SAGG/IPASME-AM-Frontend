@@ -113,7 +113,7 @@ const getPatientsSeenItemsBySpecialtyOnADate = async (token, id, month, year) =>
     let patientsSeen = []
 
     do{
-        patientsSeen = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients/specialty/${id}/${month + 1}/${year}`, token)
+        patientsSeen = await getVerified(`http://localhost:4000/api/patients/specialty/${id}/${month + 1}/${year}`, token)
     }while(patientsSeen.message)
 
     const patientsSeenItems = {

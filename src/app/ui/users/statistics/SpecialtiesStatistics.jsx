@@ -52,7 +52,6 @@ const SpecialtyBox = ({id, name}) =>{
     
     useEffect(()=>{
         setPatientsSeenQuantityLoading(true)
-        console.log("ss: month: ", datesPatientsSeen.month)
         setTimeout(async()=>{const patientsSeenQuantityResult = await getPatientsSeenQuantityBySpecialtyOnADate(localStorage.getItem("user_token"), id, datesPatientsSeen.month, datesPatientsSeen.year)
         if (patientsSeenQuantityResult >= 0){
             setPatientsSeenQuantityLoading(false)
