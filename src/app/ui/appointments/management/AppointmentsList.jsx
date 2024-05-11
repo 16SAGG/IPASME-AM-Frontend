@@ -38,7 +38,7 @@ const AppointmentsListDoctor = () => {
 
     useEffect(()=>{
         if (!search) setAppointments(appointmentsPool)
-        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.appointment_date.toUpperCase().includes(search.toUpperCase())))
+        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.date.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -50,7 +50,7 @@ const AppointmentsListDoctor = () => {
                     appointments.map((appointment)=>
                         <AppointmentItem
                             id={appointment.id}
-                            date={extractDate(appointment.appointment_date)}
+                            date={extractDate(appointment.date)}
                             url={`/users/appointments/management/medical_history/${appointment.id}`}
                             doctor={appointment.doctor_id}
                             patient={appointment.patient_id}
@@ -85,7 +85,7 @@ const AppointmentsListReceptionist = ()=> {
 
     useEffect(()=>{
         if (!search) setAppointments(appointmentsPool)
-        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.appointment_date.toUpperCase().includes(search.toUpperCase())))
+        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.date.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -97,7 +97,7 @@ const AppointmentsListReceptionist = ()=> {
                     appointments.map((appointment)=>
                         <AppointmentItem
                             id={appointment.id}
-                            date={extractDate(appointment.appointment_date)}
+                            date={extractDate(appointment.date)}
                             url={`/users/appointments/management/${appointment.id}`}
                             doctor={appointment.doctor_id}
                             patient={appointment.patient_id}
@@ -171,7 +171,7 @@ const getAppointments = async (token) =>{
     let appointments = []
 
     do{
-        appointments = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/doctor/patient`, token)
+        appointments = await getVerified(`http://localhost:4000/api/appointments/doctor/patient`, token)
     }while(appointments.message)
     
     return appointments
@@ -184,7 +184,7 @@ const getAppointmentsByDoctor = async (doctorID, token) =>{
     const month = new Date().getMonth() + 1
     const day = new Date().getDate()
     do{
-        appointments = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/doctor/${doctorID}/${year}/${month}/${day}`, token)
+        appointments = await getVerified(`http://localhost:4000/api/appointments/doctor/${doctorID}/${year}/${month}/${day}`, token)
     }while(appointments.message)
     
     return appointments
