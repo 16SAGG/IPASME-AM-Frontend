@@ -50,10 +50,10 @@ export const EditForm = ({id})=>{
             if (!userResult.message){
                 setUserLoading(false)
                 setName(await userResult.name)
-                setLastName(await userResult.last_name)
+                setLastName(await userResult.lastName)
                 setBirthdate(extractDate(await userResult.birthdate))
                 setGender(await userResult.gender)
-                setUserType(await userResult.user_type)
+                setUserType(await userResult.userType)
                 setSpecialty(await userResult.specialty)
                 setTurn(await userResult.turn)
             }
@@ -224,7 +224,7 @@ const DeleteButton = ({id, setResult}) =>{
 
     const onClickHandle = async () =>{
         setLoading(true)
-        const deleteUserReq = await deleteVerified(`https://ipasme-am-backend.onrender.com/api/users/${id}`, localStorage.getItem("user_token"))
+        const deleteUserReq = await deleteVerified(`http://localhost:4000/api/users/${id}`, localStorage.getItem("user_token"))
 
         if (!deleteUserReq.message) setResult({ok: "Ok"})
         else setResult(deleteUserReq)
@@ -253,7 +253,7 @@ const getUser = async (token, id) =>{
     let users = []
 
     do{
-        users = await getVerified(`https://ipasme-am-backend.onrender.com/api/users/${id}`, token)
+        users = await getVerified(`http://localhost:4000/api/users/${id}`, token)
     }while(users.message === 'Something Goes Wrong')
     
     return users
@@ -263,7 +263,7 @@ const getGenders = async (token) =>{
     let genders = []
 
     do{
-        genders = await getVerified(`https://ipasme-am-backend.onrender.com/api/gender`, token)
+        genders = await getVerified(`http://localhost:4000/api/gender`, token)
     }while(genders.message === 'Something Goes Wrong')
 
     return genders
@@ -273,7 +273,7 @@ const getUserTypes = async (token) =>{
     let userTypes = []
 
     do{
-        userTypes = await getVerified(`https://ipasme-am-backend.onrender.com/api/user_type`, token)
+        userTypes = await getVerified(`http://localhost:4000/api/user_type`, token)
     }while(userTypes.message === 'Something Goes Wrong')
 
     return userTypes
@@ -283,7 +283,7 @@ const getSpecialties = async (token) =>{
     let specialties = []
 
     do{
-        specialties = await getVerified(`https://ipasme-am-backend.onrender.com/api/specialty`, token)
+        specialties = await getVerified(`http://localhost:4000/api/specialty`, token)
     }while(specialties.message === 'Something Goes Wrong')
 
     return specialties
@@ -293,7 +293,7 @@ const getTurns = async (token) =>{
     let turns = []
 
     do{
-        turns = await getVerified(`https://ipasme-am-backend.onrender.com/api/turn`, token)
+        turns = await getVerified(`http://localhost:4000/api/turn`, token)
     }while(turns.message === 'Something Goes Wrong')
 
     return turns

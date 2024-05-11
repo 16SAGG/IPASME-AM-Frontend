@@ -1,8 +1,8 @@
 export const updateUser = async (id, token, name, lastName, birthdate, gender, userType, specialty, turn) =>{    
     try {
-        const response = await fetch(`https://ipasme-am-backend.onrender.com/api/users/${id}`, {
+        const response = await fetch(`http://localhost:4000/api/users/${id}`, {
             method: 'PATCH',
-            body: JSON.stringify({ name, "last_name": lastName, birthdate, gender, "user_type": userType, specialty, turn }),
+            body: JSON.stringify({ name, lastName, birthdate, gender, userType, specialty, turn }),
             headers: {
                 "Content-Type": "application/json",
                 "x-access-token": token
