@@ -36,14 +36,15 @@ export const EditForm = ({id})=>{
             setMedicalHistoryLoading(false)
             setDescription(medicalHistoryResult.description)
             const appointmentResult = await getAppointment(localStorage.getItem("user_token"), await medicalHistoryResult.appointment)
+            if (appointmentResult){
             setAppointmentLoading(false)
-            setDate(extractDate(await appointmentResult.appointment_date))
-            setSpecialty(await appointmentResult.specialty)
-            setTurn(await appointmentResult.turn)
-            setDoctorName(`${await appointmentResult.doctor_name} ${await appointmentResult.doctor_last}`)
-            setDoctorCI(await appointmentResult.doctor_id)
-            setPatienName(`${await appointmentResult.patient_name} ${await appointmentResult.patient_last}`)
-            setPatientCI(await appointmentResult.patient_id)
+            setDate(extractDate( appointmentResult.date))
+            setSpecialty( appointmentResult.specialty)
+            setTurn( appointmentResult.turn)
+            setDoctorName(`${ appointmentResult.doctor_name} ${ appointmentResult.doctor_last}`)
+            setDoctorCI( appointmentResult.doctor_id)
+            setPatienName(`${ appointmentResult.patient_name} ${ appointmentResult.patient_last}`)
+            setPatientCI( appointmentResult.patient_id)}
         }
     },[])
 
@@ -161,7 +162,7 @@ const DeleteButton = ({id, setResult}) =>{
 
     const onClickHandle = async () =>{
         setLoading(true)
-        const deletePatientsReq = await deleteVerified(`https://ipasme-am-backend.onrender.com/api/medical_histories/${id}`, localStorage.getItem("user_token"))
+        const deletePatientsReq = await deleteVerified(`http://localhost:4000/api/medical_histories/${id}`, localStorage.getItem("user_token"))
 
         if (!deletePatientsReq.message) setResult({ok: "Ok"})
         else setResult(deletePatientsReq)
@@ -190,7 +191,7 @@ const getMedicalHistory = async (token, id) =>{
     let medicalHistory = []
 
     do{
-        medicalHistory = await getVerified(`https://ipasme-am-backend.onrender.com/api/medical_histories/${id}`, token)
+        medicalHistory = await getVerified(`http://localhost:4000/api/medical_histories/${id}`, token)
     }while(medicalHistory.message === 'Something Goes Wrong')
 
     return medicalHistory
@@ -200,7 +201,7 @@ const getAppointment = async (token, id) =>{
     let appointment = []
 
     do{
-        appointment = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/doctor/patient/${id}`, token)
+        appointment = await getVerified(`http://localhost:4000/api/appointments/doctor/patient/${id}`, token)
     }while(appointment.message === 'Something Goes Wrong')
 
     return appointment

@@ -37,7 +37,7 @@ export const CreateForm = ()=>{
         setAppointmentDataLoading(true)
         const appointmentResult = await getAppointment(localStorage.getItem("user_token"), id)
         setAppointmentDataLoading(false)
-        setDate(extractDate(await appointmentResult.appointment_date))
+        setDate(extractDate(await appointmentResult.date))
         setSpecialty(await appointmentResult.specialty)
         setTurn(await appointmentResult.turn)
         setDoctorName(`${await appointmentResult.doctor_name} ${await appointmentResult.doctor_last}`)
@@ -189,7 +189,7 @@ const getAppointments = async (token) =>{
     let appointments = []
 
     do{
-        appointments = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/whitout/medical_histories`, token)
+        appointments = await getVerified(`http://localhost:4000/api/appointments/whitout/medical_histories`, token)
     }while(appointments.message === 'Something Goes Wrong')
     
     return appointments
@@ -199,7 +199,7 @@ const getAppointment = async (token, id) =>{
     let appointment = []
 
     do{
-        appointment = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/doctor/patient/${id}`, token)
+        appointment = await getVerified(`http://localhost:4000/api/appointments/doctor/patient/${id}`, token)
     }while(appointment.message === 'Something Goes Wrong')
 
     return appointment

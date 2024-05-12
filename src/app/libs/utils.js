@@ -7,6 +7,7 @@ export const getAge = (birthdate) =>{
 }
 
 export const extractDate = (date) =>{
+    if (!date) return
     const regexDate = /(\d{4})-(\d{1,2})-(\d{1,2})/;
     const match = date.match(regexDate);
     

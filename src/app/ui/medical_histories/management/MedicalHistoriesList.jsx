@@ -39,7 +39,7 @@ const MedicalHistoriesListDoctor= ()=>{
 
     useEffect(()=>{
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.appointment_date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -84,7 +84,7 @@ const MedicalHistoriesListReceptionist = ()=>{
 
     useEffect(()=>{
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.appointment_date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -96,7 +96,7 @@ const MedicalHistoriesListReceptionist = ()=>{
                     medicalHistories.map((medicalHistory)=>
                         <MedicalHistoryItem
                             id={medicalHistory.id}
-                            date={extractDate(medicalHistory.appointment_date)}
+                            date={extractDate(medicalHistory.date)}
                             ci={medicalHistory.ci}
                             specialty={medicalHistory.name}
                             key={medicalHistory.id}
@@ -197,7 +197,7 @@ const getMedicalHistories = async (token) =>{
     let medicalHistories = []
 
     do{
-        medicalHistories = await getVerified(`https://ipasme-am-backend.onrender.com/api/medical_histories/patient/specialty`, token)
+        medicalHistories = await getVerified(`http://localhost:4000/api/medical_histories/patient/specialty`, token)
     }while(medicalHistories.message)
     
     return medicalHistories
@@ -207,7 +207,7 @@ const getPatients = async (token) =>{
     let patients = []
 
     do{
-        patients = await getVerified(`https://ipasme-am-backend.onrender.com/api/patients`, token)
+        patients = await getVerified(`http://localhost:4000/api/patients`, token)
     }while(patients.message)
     
     return patients

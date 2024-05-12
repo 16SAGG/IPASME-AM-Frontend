@@ -1,6 +1,6 @@
 export const updateMedicalHistories = async (id, token, description) =>{    
     try {
-        const response = await fetch(`https://ipasme-am-backend.onrender.com/api/medical_histories/${id}`, {
+        const response = await fetch(`http://localhost:4000/api/medical_histories/${id}`, {
             method: 'PATCH',
             body: JSON.stringify({ description }),
             headers: {
