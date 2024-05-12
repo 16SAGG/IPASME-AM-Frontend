@@ -39,7 +39,7 @@ const MedicalHistoriesListDoctor= ()=>{
 
     useEffect(()=>{
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(
@@ -83,8 +83,9 @@ const MedicalHistoriesListReceptionist = ()=>{
     }, [])
 
     useEffect(()=>{
+        console.log(medicalHistoriesPool)
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory.date.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory?.date?.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
     }, [search])
 
     return(

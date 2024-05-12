@@ -26,7 +26,7 @@ export const PatientMedicalHistory = ({id}) =>{
                 medicalHistories.map((medicalHistory, _index)=>
                     <MedicalHistoryItem
                         date={extractDate(medicalHistory.appointment_date)}
-                        doctor={`${medicalHistory.doctor_name} ${medicalHistory.last_name} -- ${medicalHistory.ci}`}
+                        doctor={`${medicalHistory.doctor_name} ${medicalHistory.lastName} -- ${medicalHistory.ci}`}
                         specialty={medicalHistory.specialty_name}
                         description={medicalHistory.description}
                         key={_index}
@@ -60,7 +60,7 @@ const getMedicalHistoriesByPatient = async (id, token) =>{
     let medicalHistories = []
 
     do{
-        medicalHistories = await getVerified(`https://ipasme-am-backend.onrender.com/api/medical_histories/patient/${id}`, token)
+        medicalHistories = await getVerified(`http://localhost:4000/api/medical_histories/patient/${id}`, token)
     }while(medicalHistories.message === 'Something Goes Wrong')
 
     return medicalHistories
