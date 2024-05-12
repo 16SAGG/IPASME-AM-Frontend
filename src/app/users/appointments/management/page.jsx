@@ -1,5 +1,6 @@
 import { PrimaryLink } from "@/app/ui/PrimaryLink";
 import { AppointmentsList } from "@/app/ui/appointments/management/AppointmentsList";
+import { NewAppointment } from "@/app/ui/appointments/management/NewAppointment";
 import { SearchAppointments } from "@/app/ui/appointments/management/SearchAppointments";
 
 export default function AppointmentsManagementPage (){
@@ -19,10 +20,7 @@ export default function AppointmentsManagementPage (){
                     className="flex flex-col gap-3"
                 >
                     <SearchAppointments/>
-                    <PrimaryLink
-                        content={"Crear Nueva Cita"}
-                        href={`/users/appointments/management/create`}
-                    />
+                    <NewAppointment/>
                 </div>
                 <AppointmentsList/>
             </div>

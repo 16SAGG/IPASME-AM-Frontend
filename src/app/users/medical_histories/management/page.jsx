@@ -1,6 +1,7 @@
 import { PrimaryLink } from "@/app/ui/PrimaryLink";
 import { SearchPatients } from "@/app/ui/patients/management/SearchPatients";
 import { MedicalHistoriesList } from "@/app/ui/medical_histories/management/MedicalHistoriesList";
+import { NewMedicalHistory } from "@/app/ui/medical_histories/management/NewMedicalHistory";
 
 
 export default function MedicalHistoriesManagementPage (){
@@ -20,10 +21,7 @@ export default function MedicalHistoriesManagementPage (){
                     className="flex flex-col gap-3"
                 >
                     <SearchPatients/>
-                    <PrimaryLink
-                        content={"Crear Nuevo Historial Medico"}
-                        href={`/users/medical_histories/management/create`}
-                    />
+                    <NewMedicalHistory/>
                 </div>
                 <MedicalHistoriesList/>
             </div>
