@@ -31,7 +31,7 @@ export const CreateForm = ({id})=>{
     useEffect(()=>async ()=>{
         const appointmentResult = await getAppointment(localStorage.getItem("user_token"), id)
         setAppointmentLoading(false)
-        setDate(extractDate(await appointmentResult.appointment_date))
+        setDate(extractDate(await appointmentResult.date))
         setSpecialty(await appointmentResult.specialty)
         setTurn(await appointmentResult.turn)
         setDoctorName(`${await appointmentResult.doctor_name} ${await appointmentResult.doctor_last}`)
@@ -160,7 +160,7 @@ const getAppointment = async (token, id) =>{
     let appointment = []
 
     do{
-        appointment = await getVerified(`https://ipasme-am-backend.onrender.com/api/appointments/doctor/patient/${id}`, token)
+        appointment = await getVerified(`http://localhost:4000/api/appointments/doctor/patient/${id}`, token)
     }while(appointment.message === 'Something Goes Wrong')
 
     return appointment
