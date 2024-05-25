@@ -37,6 +37,12 @@ const linksPool = [
         href : "/users/appointments/management",
         userType : ['1', '2']
     },
+    {
+        icon : "/icons/logout-icon.svg",
+        name : "Salir",
+        href : "/",
+        userType : ['0', '1', '2']
+    },
 ]
 
 export const NavBar = ()=>{
