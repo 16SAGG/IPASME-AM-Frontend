@@ -65,7 +65,7 @@ export const NavBar = ()=>{
     
     return(
         <nav
-            className="flex fixed bottom-0 left-0 min-h-16 w-full bg-primary z-10 md:top-0 md:bottom-auto"
+            className="flex fixed bottom-0 left-0 min-h-16 w-full bg-primary z-20 md:top-0 md:bottom-auto"
         >
             {links}
         </nav>
