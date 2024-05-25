@@ -33,22 +33,25 @@ export const CreateForm = ()=>{
     const [specialtyLoading, setSpecialtyLoading] = useState(true)
     const [turnLoading, setTurnLoading] = useState(true)
 
-    const dateOnChange = (event) => setDate(event.target.value)
     const doctorOnChange = (event) => setDoctor(event.target.value)
     const patientOnChange = (event) => setPatient(event.target.value)
     const appointmentTypeOnChange = (event) => setAppointmentType(event.target.value)
+    const dateOnChange = (event) =>{
+        setDate(event.target.value)
+        getDoctorsMiddleware(specialty, turn, event.target.value)
+    }
     const specialtyOnChange = (event) => {
         setSpecialty(event.target.value)
-        getDoctorsMiddleware(event.target.value, turn)
+        getDoctorsMiddleware(event.target.value, turn, date)
     }
     const turnOnChange = (event) => {
         setTurn(event.target.value)
-        getDoctorsMiddleware(specialty, event.target.value)
+        getDoctorsMiddleware(specialty, event.target.value, date)
     }
 
-    const getDoctorsMiddleware = async (specialty, turn) =>{
+    const getDoctorsMiddleware = async (specialty, turn, date) =>{
         setDoctorLoading(true)
-        const doctorsResult = await getDoctors(localStorage.getItem("user_token"), specialty, turn)
+        const doctorsResult = await getDoctors(localStorage.getItem("user_token"), specialty, turn, date)
         if (doctorsResult.length){
             setDoctorLoading(false)
             setDoctor(await doctorsResult[0].id)
@@ -230,11 +233,19 @@ const CreateButton = ({createParams, setResult}) =>{
     )
 }
 
-const getDoctors = async (token, specialty, turn) =>{
+const getDoctors = async (token, specialty, turn, newDate) =>{
     let doctors = []
 
+    const date = new Date(newDate)
+    date.setDate(date.getDate() + 1)
+
+    const year= date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate() 
+
+    console.log(date.getFullYear(), date.getMonth() + 1, date.getDate())
     do{
-        doctors = await getVerified(`http://localhost:4000/api/users/doctors/${specialty}/${turn}`, token)
+        doctors = await getVerified(`http://localhost:4000/api/users/doctors/${specialty}/${turn}/${year}/${month}/${day}`, token)
     }while(doctors.message === 'Something Goes Wrong')
 
     return doctors
