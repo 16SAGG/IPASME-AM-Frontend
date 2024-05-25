@@ -25,9 +25,10 @@ export const PatientMedicalHistory = ({id}) =>{
                 (!medicalHistoriesLoading) ?
                 medicalHistories.map((medicalHistory, _index)=>
                     <MedicalHistoryItem
-                        date={extractDate(medicalHistory.appointment_date)}
+                        date={extractDate(medicalHistory.date)}
                         doctor={`${medicalHistory.doctor_name} ${medicalHistory.lastName} -- ${medicalHistory.ci}`}
                         specialty={medicalHistory.specialty_name}
+                        turn={medicalHistory.turn}
                         description={medicalHistory.description}
                         key={_index}
                     />
@@ -41,7 +42,7 @@ export const PatientMedicalHistory = ({id}) =>{
     )
 }
 
-const MedicalHistoryItem = ({date, doctor, specialty, description}) =>{
+const MedicalHistoryItem = ({date, doctor, specialty, turn, description}) =>{
     return(
         <li
             className="flex flex-col gap-3"
@@ -50,6 +51,7 @@ const MedicalHistoryItem = ({date, doctor, specialty, description}) =>{
             <div>
                 <p><span className="font-semibold">Doctor:</span> {doctor}</p>
                 <p><span className="font-semibold">Especialidad:</span> {specialty}</p>
+                <p><span className="font-semibold">Turno:</span> {turn}</p>
                 <p className="break-words"><span className="font-semibold">description:</span> {description}</p>
             </div>
         </li>
