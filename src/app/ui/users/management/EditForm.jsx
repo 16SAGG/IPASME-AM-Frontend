@@ -14,6 +14,8 @@ import { deleteVerified} from "@/app/requests/deleteVerified"
 import Image from "next/image"
 
 export const EditForm = ({id})=>{
+    const [userID, setUserID] = useState("")
+
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [birthdate, setBirthdate] = useState("")
@@ -45,6 +47,7 @@ export const EditForm = ({id})=>{
     const {push} = useRouter()
 
     useEffect(()=>async()=>{
+        setUserID(localStorage.getItem("user_id"))
         if (id){
             const userResult = await getUser(localStorage.getItem("user_token"), id)
             if (!userResult.message){
@@ -185,6 +188,7 @@ export const EditForm = ({id})=>{
                 <DeleteButton
                     id={id}
                     setResult={setResult}
+                    userID = {userID}
                 />
             </div>
         </form>
@@ -219,7 +223,7 @@ const EditButton = ({createParams, setResult}) =>{
     )
 }
 
-const DeleteButton = ({id, setResult}) =>{
+const DeleteButton = ({id, setResult, userID}) =>{
     const [loading, setLoading] = useState(false)
 
     const onClickHandle = async () =>{
@@ -230,9 +234,12 @@ const DeleteButton = ({id, setResult}) =>{
         else setResult(deleteUserReq)
 
         setLoading(false)
-    }
+    }    
 
     return(
+        (userID === id) ? 
+            null
+        :
         <DangerButton
             onClick={()=>onClickHandle()}
             content={
