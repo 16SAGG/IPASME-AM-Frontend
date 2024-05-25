@@ -42,6 +42,7 @@ const AppointmentsListDoctor = () => {
     }, [search])
 
     return(
+        (appointments.length > 0) ?
         <ul
             className="flex flex-col gap-3"
         >
@@ -65,6 +66,8 @@ const AppointmentsListDoctor = () => {
                     )
             }
         </ul>
+        :
+            <p className="text-center">No tiene mas citas para hoy.</p>
     )
 }
 
