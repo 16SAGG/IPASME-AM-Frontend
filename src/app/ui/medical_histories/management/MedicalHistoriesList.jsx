@@ -100,6 +100,7 @@ const MedicalHistoriesListReceptionist = ()=>{
                             date={extractDate(medicalHistory.date)}
                             ci={medicalHistory.ci}
                             specialty={medicalHistory.name}
+                            turn= {medicalHistory.turn}
                             key={medicalHistory.id}
                         />
                     )
@@ -142,7 +143,7 @@ const PatientItem = ({id, ci}) =>{
     )
 }
 
-const MedicalHistoryItem = ({id, date, ci, specialty}) =>{
+const MedicalHistoryItem = ({id, date, ci, specialty, turn}) =>{
     return(
         <li>
             <Link
@@ -171,6 +172,11 @@ const MedicalHistoryItem = ({id, date, ci, specialty}) =>{
                         className="text-left"
                     >
                         <span className="text-complementary">Fecha:</span> {date}
+                    </p>
+                    <p
+                        className="text-left"
+                    >
+                        <span className="text-complementary">Turno:</span> {turn}
                     </p>
                 </div>
                 <Image
