@@ -82,7 +82,7 @@ const NavBarAnchor = ({href, icon, name}) =>{
             <p
                 className={clsx("hidden md:block",
                 {
-                    "text-secondary" : pathName.includes(href),
+                    "text-secondary" : (pathName.includes(href) && href !== '/'),
                 })}
             >
                 {name}
@@ -93,7 +93,7 @@ const NavBarAnchor = ({href, icon, name}) =>{
                 height={40}
                 alt={`Icono de ${name}`}
                 className={clsx("md:hidden", {
-                    "terciary-color-filter" : !pathName.includes(href),
+                    "terciary-color-filter" : (!pathName.includes(href) || href === '/'),
                 })}
             />
         </Link>
