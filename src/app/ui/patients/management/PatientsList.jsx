@@ -23,7 +23,13 @@ export const PatientsList = () =>{
 
     useEffect(()=>{
         if (!search) setPatients(patientsPool)
-        else setPatients(patientsPool.filter(patient => patient.ci.toUpperCase().includes(search.toUpperCase())))
+        else setPatients(
+            patientsPool.filter(
+                patient => patient.ci.toUpperCase().includes(search.toUpperCase()) 
+                || patient.name.toUpperCase().includes(search.toUpperCase())
+                || patient.lastName.toUpperCase().includes(search.toUpperCase())
+            )
+        )
     }, [search])
 
     return(
@@ -34,8 +40,7 @@ export const PatientsList = () =>{
                 (!patientsLoading) ?
                     patients.map((patient)=>
                         <PatientItem
-                            id={patient.id}
-                            ci={patient.ci}
+                            patient={patient}
                             key={patient.id}
                         />
                     )
@@ -50,17 +55,17 @@ export const PatientsList = () =>{
     )
 }
 
-const PatientItem = ({id, ci}) =>{
+const PatientItem = ({patient}) =>{
     return(
         <li>
             <Link
-                href={`/users/patients/management/${id}`}
-                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+                href={`/users/patients/management/${patient.id}`}
+                className="flex items-center gap-1 border border-complementary bg-complementary-2 rounded-xl px-6 py-3"
             >
                 <p
                     className="grow text-left"
                 >
-                    {ci}
+                    {patient.name} {patient.lastName} ({patient.ci})
                 </p>
                 <Image
                     src={"/icons/arrow-icon.svg"}

@@ -11,6 +11,7 @@ module.exports = {
       'secondary': '#FFFFFF',
       'terciary': '#18171C',
       'complementary': '#9FA3AF',
+      'complementary-2': 'rgb(240 235 253)',
       'danger': '#853131'
     },
     extend: {

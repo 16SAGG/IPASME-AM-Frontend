@@ -39,7 +39,11 @@ const MedicalHistoriesListDoctor= ()=>{
 
     useEffect(()=>{
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(medicalHistoriesPool.filter(
+            medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase())
+            || medicalHistory.name.toUpperCase().includes(search.toUpperCase())
+            || medicalHistory.lastName.toUpperCase().includes(search.toUpperCase())
+        ))
     }, [search])
 
     return(
@@ -50,8 +54,7 @@ const MedicalHistoriesListDoctor= ()=>{
                 (!medicalHistoriesLoading) ?
                     medicalHistories.map((medicalHistory)=>
                         <PatientItem
-                            id={medicalHistory.id}
-                            ci={medicalHistory.ci}
+                            medicalHistory={medicalHistory}
                             key={medicalHistory.id}
                         />
                     )
@@ -85,7 +88,16 @@ const MedicalHistoriesListReceptionist = ()=>{
     useEffect(()=>{
         console.log(medicalHistoriesPool)
         if (!search) setMedicalHistories(medicalHistoriesPool)
-        else setMedicalHistories(medicalHistoriesPool.filter(medicalHistory => medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) || medicalHistory?.date?.toUpperCase().includes(search.toUpperCase()) || medicalHistory.name.toUpperCase().includes(search.toUpperCase())))
+        else setMedicalHistories(
+                medicalHistoriesPool.filter(medicalHistory => 
+                medicalHistory.ci.toUpperCase().includes(search.toUpperCase()) 
+                || medicalHistory?.date?.toUpperCase().includes(search.toUpperCase()) 
+                || medicalHistory.name.toUpperCase().includes(search.toUpperCase()) 
+                || medicalHistory.lastName.toUpperCase().includes(search.toUpperCase()) 
+                || medicalHistory.specialty.toUpperCase().includes(search.toUpperCase())
+                || medicalHistory.turn.toUpperCase().includes(search.toUpperCase())
+            )
+        )
     }, [search])
 
     return(
@@ -96,11 +108,7 @@ const MedicalHistoriesListReceptionist = ()=>{
                 (!medicalHistoriesLoading) ?
                     medicalHistories.map((medicalHistory)=>
                         <MedicalHistoryItem
-                            id={medicalHistory.id}
-                            date={extractDate(medicalHistory.date)}
-                            ci={medicalHistory.ci}
-                            specialty={medicalHistory.name}
-                            turn= {medicalHistory.turn}
+                            medicalHistory={medicalHistory}
                             key={medicalHistory.id}
                         />
                     )
@@ -115,12 +123,12 @@ const MedicalHistoriesListReceptionist = ()=>{
     )
 }
 
-const PatientItem = ({id, ci}) =>{
+const PatientItem = ({medicalHistory}) =>{
     return(
         <li>
             <Link
-                href={`/users/medical_histories/management/patient/${id}`}
-                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+                href={`/users/medical_histories/management/patient/${medicalHistory.id}`}
+                className="flex items-center gap-1 border border-complementary bg-complementary-2 rounded-xl px-6 py-3"
             >
                 <div
                     className="flex flex-col gap-2 grow "
@@ -128,7 +136,7 @@ const PatientItem = ({id, ci}) =>{
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Cedula:</span> {ci}
+                        {medicalHistory.name} {medicalHistory.lastName} ({medicalHistory.ci})
                     </p>
                 </div>
                 <Image
@@ -143,12 +151,12 @@ const PatientItem = ({id, ci}) =>{
     )
 }
 
-const MedicalHistoryItem = ({id, date, ci, specialty, turn}) =>{
+const MedicalHistoryItem = ({medicalHistory}) =>{
     return(
         <li>
             <Link
-                href={`/users/medical_histories/management/${id}`}
-                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+                href={`/users/medical_histories/management/${medicalHistory.id}`}
+                className="flex items-center gap-1 border border-complementary bg-complementary-2 rounded-xl px-6 py-3"
             >
                 <div
                     className="flex flex-col gap-2 grow "
@@ -156,27 +164,27 @@ const MedicalHistoryItem = ({id, date, ci, specialty, turn}) =>{
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">ID:</span> {id}
+                        <span className="font-medium">ID:</span> {medicalHistory.id}
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Cedula:</span> {ci}
+                        <span className="font-medium">Paciente:</span> {medicalHistory.name} {medicalHistory.lastName} ({medicalHistory.ci})
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Especialidad:</span> {specialty}
+                        <span className="font-medium">Especialidad:</span> {medicalHistory.specialty}
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Fecha:</span> {date}
+                        <span className="font-medium">Fecha:</span> {extractDate(medicalHistory.date)}
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Turno:</span> {turn}
+                        <span className="font-medium">Turno:</span> {medicalHistory.turn}
                     </p>
                 </div>
                 <Image

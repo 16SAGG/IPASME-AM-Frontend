@@ -38,7 +38,16 @@ const AppointmentsListDoctor = () => {
 
     useEffect(()=>{
         if (!search) setAppointments(appointmentsPool)
-        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.date.toUpperCase().includes(search.toUpperCase())))
+        else setAppointments(appointmentsPool.filter(appointment => 
+            appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) 
+            || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) 
+            || appointment.date.toUpperCase().includes(search.toUpperCase())
+            || appointment.doctor_name.toUpperCase().includes(search.toUpperCase())
+            || appointment.doctor_last.toUpperCase().includes(search.toUpperCase())
+            || appointment.patient_name.toUpperCase().includes(search.toUpperCase())
+            || appointment.patient_last.toUpperCase().includes(search.toUpperCase())
+            || appointment.specialty_name.toUpperCase().includes(search.toUpperCase())
+        ))
     }, [search])
 
     return(
@@ -50,12 +59,7 @@ const AppointmentsListDoctor = () => {
                 (!appointmentsLoading) ?
                     appointments.map((appointment)=>
                         <AppointmentItem
-                            id={appointment.id}
-                            date={extractDate(appointment.date)}
-                            url={`/users/appointments/management/medical_history/${appointment.id}`}
-                            doctor={appointment.doctor_id}
-                            patient={appointment.patient_id}
-                            key={appointment.id}
+                            appointment={appointment}
                         />
                     )
                 :
@@ -88,7 +92,18 @@ const AppointmentsListReceptionist = ()=> {
 
     useEffect(()=>{
         if (!search) setAppointments(appointmentsPool)
-        else setAppointments(appointmentsPool.filter(appointment => appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) || appointment.patient_id.toUpperCase().includes(search.toUpperCase()) || appointment.date.toUpperCase().includes(search.toUpperCase())))
+        else setAppointments(appointmentsPool.filter(
+            appointment => 
+                appointment.doctor_id.toUpperCase().includes(search.toUpperCase()) 
+                || appointment.doctor_name.toUpperCase().includes(search.toUpperCase()) 
+                || appointment.doctor_last.toUpperCase().includes(search.toUpperCase())
+                || appointment.patient_id.toUpperCase().includes(search.toUpperCase())
+                || appointment.patient_name.toUpperCase().includes(search.toUpperCase()) 
+                || appointment.patient_last.toUpperCase().includes(search.toUpperCase()) 
+                || appointment.date.toUpperCase().includes(search.toUpperCase())
+                || appointment.specialty_name.toUpperCase().includes(search.toUpperCase())
+            )
+        )
     }, [search])
 
     return(
@@ -99,12 +114,7 @@ const AppointmentsListReceptionist = ()=> {
                 (!appointmentsLoading) ?
                     appointments.map((appointment)=>
                         <AppointmentItem
-                            id={appointment.id}
-                            date={extractDate(appointment.date)}
-                            url={`/users/appointments/management/${appointment.id}`}
-                            doctor={appointment.doctor_id}
-                            patient={appointment.patient_id}
-                            key={appointment.id}
+                            appointment={appointment}
                         />
                     )
                 :
@@ -118,12 +128,12 @@ const AppointmentsListReceptionist = ()=> {
     )
 }
 
-const AppointmentItem = ({id, url, date, doctor, patient}) =>{
+const AppointmentItem = ({appointment}) =>{
     return(
         <li>
             <Link
-                href={url}
-                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+                href={`/users/appointments/management/medical_history/${appointment.id}`}
+                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3 bg-complementary-2"
             >
                 <div
                     className="flex flex-col gap-2 grow "
@@ -131,22 +141,27 @@ const AppointmentItem = ({id, url, date, doctor, patient}) =>{
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">ID:</span> {id}
+                        <span className="font-medium">ID:</span> {appointment.id}
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Doctor:</span> {doctor}
+                        <span className="font-medium">Doctor:</span> {appointment.doctor_name} {appointment.doctor_last} ({appointment.doctor_id})
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Paciente:</span> {patient}
+                        <span className="font-medium">Paciente:</span> {appointment.patient_name} {appointment.patient_last} ({appointment.patient_id})
                     </p>
                     <p
                         className="text-left"
                     >
-                        <span className="text-complementary">Fecha:</span> {date}
+                        <span className="font-medium">Especialidad:</span> {appointment.specialty_name}
+                    </p>
+                    <p
+                        className="text-left"
+                    >
+                        <span className="font-medium">Fecha:</span> {extractDate(appointment.date)}
                     </p>
                 </div>
                 <Image

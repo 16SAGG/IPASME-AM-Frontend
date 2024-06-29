@@ -55,7 +55,7 @@ const UserItem = ({id, email}) =>{
         <li>
             <Link
                 href={`/users/management/${id}`}
-                className="flex items-center gap-1 border border-complementary rounded-xl px-6 py-3"
+                className="flex items-center gap-1 border border-complementary rounded-xl bg-complementary-2 px-6 py-3"
             >
                 <p
                     className="grow text-left"
